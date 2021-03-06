@@ -1,0 +1,6 @@
+{
+    "require": {
+        "khanamiryan/qrcode-detector-decoder": "^1.0",
+        "jeroendesloovere/vcard": "^1.7"
+    }
+}
