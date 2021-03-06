@@ -17,23 +17,25 @@ if (isset($_POST["send"])) {
 
   $dateiname = $_FILES["datei"]["name"] ?? "";
   $dateipfad = $_FILES["datei"]["tmp_name"] ?? "";
+
+  if (empty($dateiname)) {
+    header("Location: ./index.php");
+    exit;
+  }
+
   $qrcode    = new QrReader($dateipfad);
-  $qrcontent = $qrcode->text(); //return decoded text from QR Code
+  $qrcontent = $qrcode->text();
+  $parseQr   = explode(";", $qrcontent);
+  $formData  = [];
 
-  //  var_dump($dateipfad);
-  var_dump($qrcontent);
-
-  $parseQr  = explode(";", $qrcontent);
-  $formData = [];
-
-  var_dump($parseQr);
+  //  var_dump($parseQr);
 
   foreach ($parseQr as $field) {
     $split                 = explode(":", $field);
     $formData[ $split[0] ] = $split[1];
   }
 
-  var_dump($formData);
+  //  var_dump($formData);
 }
 
 
@@ -62,6 +64,8 @@ if (isset($_POST["send"])) {
 
     <hr>
     <h2>QR Inhalt:</h2>
+
+    <pre><?= $qrcontent ?? "" ?></pre>
 
     <small>Vorname</small>
     <br/>
